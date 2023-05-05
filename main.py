@@ -1,22 +1,29 @@
 
 
 import os
+import csv
 import cv2
 import face_recognition
+import numpy as np
+
+
+RESIZE_HEIGHT = 360
 
 # Load images and learn how to recognize them
 known_face_encodings = []
 known_face_names = []
-image_dir = 'students'
 
-for filename in os.listdir(image_dir):
-    if filename.endswith('.jpg'):
-        image_path = os.path.join(image_dir, filename)
-        image = face_recognition.load_image_file(image_path)
+for filename in os.listdir("students"):  # list all files in dir
+    if filename.endswith('.jpg'):  # if file ends with .jpg
+        image_path = os.path.join("students", filename)  # join the path
+        image = face_recognition.load_image_file(image_path)  # load image file
         face_encoding = face_recognition.face_encodings(image)[0]
         known_face_encodings.append(face_encoding)
-        name = os.path.splitext(filename)[0]
-        known_face_names.append(name)
+        with open("2023.csv", "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row['ID'] == os.path.splitext(filename)[0]:
+                    known_face_names.append(row['Name'])
 
 # Initialize some variables
 face_locations = []
@@ -72,7 +79,7 @@ while True:
         # Draw a label with a name below the face
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+        cv2.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
 
     # Display the resulting image
     cv2.imshow('Video', frame)
