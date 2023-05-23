@@ -1,0 +1,24 @@
+
+{
+  "college": {
+    "principle": {
+      "principle_name": "admin",
+      "password": "admin",
+      "email": "mail@example.com",
+      "is_verified": "no",
+      "college": "clg1",
+      "teachers": {
+        "teacher_1": {
+          "password": "admin1",
+          "dept": "comp",
+          "email": "mail1@example.com"
+        },
+        "teacher_2": {
+          "password": "admin2",
+          "dept": "mech",
+          "email": "mail2@example.com"
+        }
+      }
+    }
+  }
+}
